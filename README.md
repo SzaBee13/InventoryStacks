@@ -1,33 +1,42 @@
-# 🚀 Introduction
+# Introduction
 
-**InventoryStacks** lets you change how many items can fit in a single stack. If you want to let players stack things like potions, totems, or ender pearls past the usual limit of 64, this is the way to do it. It’s easy to use and gives you total control over your server’s stack sizes.
+**InventoryStacks** lets you change how many items can fit in a single stack. If you want to let players stack things like potions, totems, or ender pearls past the usual limit of 64, this is the way to do it.
 
-### ⭐ Key Features
+## About This Fork
 
-* Custom Stack Limits: Set specific stack sizes for any item type.
-* Global Stack Control: Optionally set a global stack limit for all items in the game, with a whitelist for exceptions.
-* Intelligent Drop Stacking: Automatically merges nearby dropped items into a single stack. This significantly reduces entity counts, saves server memory, and keeps gameplay running smoothly.
-* Cross-Platform Support: Fully compatible with Spigot, Paper, Purpur, and Folia.
-* Geyser Integration: Works seamlessly with Geyser + Floodgate for Bedrock players.
-* Advanced Handling: Includes legacy reflection-based stack handling option for newer Minecraft versions (1.20.5+).
+This is a hard fork of [InventoryStacks](https://github.com/BrilliantTeam/InventoryStacks).
 
-### ✅ Supported Versions
+### What's different
 
-**InventoryStacks** supports a wide range of Minecraft versions with tailored stack limits:
+**New features:**
 
-| **Minecraft Version** | **Max Stack Limit** |
-| --------------------- | ------------------- |
-| 1.7 – 1.20.3          | Up to 127 items     |
-| 1.20.6 – Latest       | Up to 99 items      |
+- **Dropped-item merging** -- nearby identical drops are automatically merged into larger stacks, reducing entity lag
+- **Item holograms** -- configurable floating labels above dropped items showing amount, name, and despawn timer
+- **Permission-based stacking** -- opt-in stacking via the `STACKS.USE` permission node (1.20.5+)
+- **WorldGuard region support** -- restrict custom stacking to specific WorldGuard regions (1.20.5+)
+- **Configurable merge radius** -- tune how far dropped items search for merge candidates
+- **Debug mode** -- detailed console logging for ground-merge and pickup troubleshooting
 
-### 📖 Quick Links
+**Fixes:**
 
-* [Documentation & FAQ](https://codingguru1968.gitbook.io/inventorystacks-wiki) – Full configuration guides.
-* [Source Code](https://github.com/CodingGuru1968/InventoryStacks) – View the project on GitHub.
-* [Discord Server](https://discord.gg/Rqmngywv57) - Found a bug or want a new feature?
+- **Totem offhand fixes** -- resolves totem stacking issues in the offhand slot (shift-click and direct-click)
+- **Bundle fix** -- prevents inventory glitches with bundles on 1.20.5+
 
-### 💬 Getting Support
+**Dropped from upstream (not carried forward):**
 
-We are committed to helping you keep your server running smoothly. If you encounter any bugs, have feature requests, or need assistance with your configuration, join our community on Discord.
+- `OminousBannerPin` listener
+- `PlayerInteractEntity` listener
+- `RegionSchedule` scheduler
+- `BlockUtil` utility
 
-🔗 [Join the Discord Support Server](https://discord.gg/Rqmngywv57)
+### Relationship to upstream
+
+This is an independent fork. Not affiliated with, endorsed by, or supported by the original maintainers.
+
+## Supported Versions
+
+| Minecraft Version | Stack Sizing Method | Max Stack |
+| --- | --- | --- |
+| 1.8 -- 1.19.x | NMS reflection | Up to 256 |
+| 1.20.x | NMS reflection | Up to 256 |
+| 1.20.5+ | ItemMeta API (default) or NMS data-component reflection | Up to 256 |

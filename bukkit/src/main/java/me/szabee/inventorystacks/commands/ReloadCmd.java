@@ -1,0 +1,44 @@
+package me.szabee.inventorystacks.commands;
+
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+
+import me.szabee.inventorystacks.InventoryStacks;
+import me.szabee.inventorystacks.handlers.ItemHandler;
+import me.szabee.inventorystacks.hooks.WorldGuardHook;
+import me.szabee.inventorystacks.util.MessagesUtil;
+
+public class ReloadCmd implements CommandExecutor {
+
+	@Override
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		if (args.length == 0) {
+			MessagesUtil.sendMessage(sender,
+					MessagesUtil.INCORRECT_USAGE.toString().replaceAll("%command%", "/stacks reload"));
+			return false;
+		}
+
+		if (!args[0].equalsIgnoreCase("reload") && !args[0].equalsIgnoreCase("rl")) {
+			MessagesUtil.sendMessage(sender,
+					MessagesUtil.INCORRECT_USAGE.toString().replaceAll("%command%", "/stacks reload"));
+			return false;
+		}
+
+		if (!sender.hasPermission("STACKS.*") && !sender.hasPermission("STACKS.RELOAD")) {
+			MessagesUtil.sendMessage(sender, MessagesUtil.NO_PERMISSION.toString());
+			return false;
+		}
+
+		InventoryStacks PLUGIN = InventoryStacks.getInstance();
+		
+		PLUGIN.reloadConfig();
+		WorldGuardHook.setupWorldGuard();
+		PLUGIN.getSettingsManager().setup(PLUGIN);
+		PLUGIN.reloadMessaging();
+		PLUGIN.reloadItemHologramManager();
+		ItemHandler.getInstance().reloadInventoryStacks();
+		MessagesUtil.sendMessage(sender, MessagesUtil.RELOAD.toString());
+		return false;
+	}
+}

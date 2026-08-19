@@ -1,0 +1,14 @@
+name: InventoryStacks
+version: ${version}
+api-version: 1.13
+main: me.szabee.inventorystacks.InventoryStacks
+authors: [CodingGuru, SzaBee13]
+softdepend: [WorldGuard]
+folia-supported: true
+commands:
+    stack:
+     description: Stack all items in your inventory.
+    stacks:
+     description: Reload inventory stacks.
+    inventorystacks:
+     description: Reload inventory stacks.

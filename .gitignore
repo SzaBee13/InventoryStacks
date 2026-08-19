@@ -1,14 +1,21 @@
-# Build output
+# Build outputs
+dist/
 target/
-
-# IDEs
-.idea/
-.vscode/
+build/
+bin/
+.m2/
+.gradle/
 
 # OS files
 .DS_Store
 Thumbs.db
 
-# Logs
+# Logs 
 logs/
-*.log 
+*.log
+
+# Environment files
+.env
+.env.local
+.env.*.local
+!.env.example
