@@ -1,0 +1,40 @@
+---
+title: Permission Reference
+description: All permission nodes for InventoryStacks
+---
+
+# Permission Reference
+
+## Permission Nodes
+
+| Node | Description | Default |
+| --- | --- | --- |
+| `STACKS.*` | All InventoryStacks permissions | `op` |
+| `STACKS.COMMAND` | Use `/stack` to consolidate items | `op` |
+| `STACKS.RELOAD` | Reload configuration with `/stacks reload` | `op` |
+| `STACKS.USE` | Benefit from custom stack sizes (1.20.5+ permission mode) | `true` |
+
+## Usage with Permission Plugins
+
+### LuckPerms
+
+```
+/lp user Steve permission set STACKS.COMMAND true
+/lp user Steve permission set STACKS.USE true
+```
+
+### For All Players
+
+```
+/lp group default permission set STACKS.COMMAND true
+/lp group default permission set STACKS.USE true
+```
+
+## Permission-Based Stacking
+
+When `use-permission.enabled: true` in config, the `STACKS.USE` node controls who gets custom stack sizes:
+
+- **Has permission**: Custom stack sizes apply
+- **No permission**: Vanilla stack sizes apply
+
+See [Permission Configuration](../configuration/permissions) for details.

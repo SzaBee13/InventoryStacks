@@ -1,0 +1,56 @@
+---
+title: Command Reference
+description: All commands available in InventoryStacks
+---
+
+# Command Reference
+
+## `/stack [HAND|ALL]`
+
+Consolidate items in the player's inventory.
+
+| Argument | Description |
+| --- | --- |
+| *(none)* | Uses the default stack type from config |
+| `HAND` | Stack all items matching the one in your main hand |
+| `ALL` | Stack all stackable items in your inventory |
+
+**Permission**: `STACKS.COMMAND` or `STACKS.*`
+
+**Examples**
+
+```
+/stack          # Stack hand items (default)
+/stack HAND     # Stack hand items
+/stack ALL      # Stack entire inventory
+```
+
+## `/stacks reload`
+
+Reload all configuration files and apply changes.
+
+**Aliases**: `/inventorystacks reload`, `/inventorystacks rl`
+
+**Permission**: `STACKS.RELOAD` or `STACKS.*`
+
+**What Gets Reloaded**
+
+- `config.yml` -- all settings
+- `lang.yml` -- messages
+- WorldGuard regions
+- Item hologram settings
+- All cached stack sizes (reset and re-applied)
+
+## `/give` Interaction
+
+InventoryStacks intercepts the vanilla `/give` command for damageable items with custom stack sizes. This prevents durability combining glitches.
+
+When giving stacked damageable items (e.g. diamond swords), the plugin adds the items directly to the player's inventory instead of using the vanilla give logic.
+
+**Example**
+
+```
+/give Player diamond_sword 16
+```
+
+The items are added via the plugin's safe inventory insertion.

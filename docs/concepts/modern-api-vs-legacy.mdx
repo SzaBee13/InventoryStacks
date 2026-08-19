@@ -1,0 +1,75 @@
+---
+title: Modern API vs Legacy NMS
+description: Understanding the two stack sizing methods
+---
+
+# Modern API vs Legacy NMS
+
+InventoryStacks uses two different methods to apply custom stack sizes depending on the server version.
+
+## Modern API (ItemMeta) -- 1.20.5+
+
+Starting with Minecraft 1.20.5, the official Bukkit/Paper API includes `ItemMeta.setMaxStackSize()`. This is the preferred method.
+
+### How It Works
+
+```java
+ItemMeta meta = stack.getItemMeta();
+meta.setMaxStackSize(newSize);
+stack.setItemMeta(meta);
+```
+
+### Advantages
+
+- No NMS dependency -- stays on the public API
+- Cleaner implementation
+- Better compatibility across server forks
+
+### Behavior
+
+- Changes apply per-item-stack, not globally
+- Container GUIs reflect updated stack sizes
+- Items not listed in config can be reset to vanilla defaults with `auto-stack-cleanup: true`
+
+## Legacy NMS Reflection -- 1.8 to 1.20.4
+
+For older servers, the plugin modifies the NMS `Item` class directly via reflection.
+
+### How It Works
+
+The plugin finds the `maxStackSize` field on the NMS `Item` class and sets it to the new value. This affects all items of that type globally.
+
+### Version-Specific Fields
+
+| Version | NMS Package | Field Name |
+| --- | --- | --- |
+| 1.8 -- 1.16.x | `net.minecraft.server.v1_X_RY` | `maxStackSize` |
+| 1.17 | `net.minecraft.world.item` | `c` |
+| 1.18 -- 1.20.4 | `net.minecraft.world.item` | `d` |
+
+### Advantages
+
+- Works on all supported server versions
+- Global effect -- no need to modify individual item stacks
+
+### Limitations
+
+- Container GUIs may not reflect updated stack sizes (visual only)
+- Requires NMS access, which can break across minor versions
+- Resetting items to defaults requires storing original values
+
+## Choosing a Method
+
+| Server Version | Method | Config Setting |
+| --- | --- | --- |
+| 1.8 -- 1.20.4 | NMS reflection | `use-legacy-reflection` is ignored (forced) |
+| 1.20.5+ | ItemMeta API (default) | `use-legacy-reflection: false` |
+| 1.20.5+ | NMS reflection (override) | `use-legacy-reflection: true` |
+
+To force legacy NMS on 1.20.5+:
+
+```yaml
+use-legacy-reflection: true
+```
+
+This requires a **server restart** to take effect.

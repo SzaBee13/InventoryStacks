@@ -1,0 +1,59 @@
+---
+title: Messages
+description: Customize plugin messages and language
+---
+
+# Messages
+
+All plugin messages are stored in `plugins/InventoryStacks/lang.yml`. This file is auto-generated on first load.
+
+## Message Keys
+
+| Key | Default | Description |
+| --- | --- | --- |
+| `GIVEN_ITEM` | `Gave %amount% [%item%] to %id%` | Given item confirmation |
+| `HAND_ITEMS_STACKED` | `&aYou have successfully stacked all items in your hand.` | Hand stack success |
+| `ALL_ITEMS_STACKED` | `&aYou have successfully stacked all items in your inventory.` | All-items stack success |
+| `INVALID_STACK_TYPE` | `&c%type% is not a valid stack type. Use 'HAND' or 'ALL'.` | Invalid stack type error |
+| `DISALLOW_ANVIL_STACK` | `&cYou cannot use multiple stacked items in an anvil.` | Anvil restriction |
+| `PREVENT_SHIFT_COMBINING_DAMAGEABLE_ITEMS` | `&cYou cannot combine this item WITH SHIFT due to a durability item glitch.` | Shift-click restriction |
+| `COMMAND_DISABLED` | `&cThis command has been disabled.` | Disabled command |
+| `BUNDLE_FIX` | `&cYou cannot put stacked damageable items into bundles due to client limitations.` | Bundle restriction |
+| `RELOAD` | `&aYou have successfully reloaded all configuration files.` | Reload success |
+| `INCORRECT_USAGE` | `&cCorrect Usage: %command%` | Usage error |
+| `IN_GAME` | `&cYou can only execute this in this in-game.` | Console restriction |
+| `NUMBER_EXCEPTION` | `&cYou must enter a correct amount.` | Number format error |
+| `PLAYER_NOT_FOUND` | `&cNo entity was found with the id: %id%` | Player not found |
+| `NO_PERMISSION` | `&cYou do not have permission to execute this command.` | No permission |
+
+## Placeholders
+
+| Placeholder | Available In |
+| --- | --- |
+| `%amount%` | `GIVEN_ITEM` |
+| `%item%` | `GIVEN_ITEM` |
+| `%id%` | `GIVEN_ITEM`, `PLAYER_NOT_FOUND` |
+| `%type%` | `INVALID_STACK_TYPE` |
+| `%command%` | `INCORRECT_USAGE` |
+
+## MiniMessage
+
+When `use-mini-message: true` in `config.yml`, messages support [MiniMessage format](https://docs.adventure.kyori.net/minimessage/) instead of legacy color codes.
+
+```yaml
+use-mini-message: true
+```
+
+Example MiniMessage format:
+
+```
+<green>You have successfully stacked all items in your hand.</green>
+```
+
+## Multi-line Messages
+
+Use `\\n` in lang.yml for multi-line messages:
+
+```yaml
+RELOAD: "&aReloaded!\\n&7All configuration files have been reloaded."
+```

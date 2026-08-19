@@ -1,0 +1,52 @@
+---
+title: How Stacking Works
+description: Understanding the InventoryStacks stacking mechanism
+---
+
+# How Stacking Works
+
+InventoryStacks modifies the maximum stack size of items at the server level. Here's how it works under the hood.
+
+## Startup Flow
+
+1. **Version detection** -- The plugin detects the server version and chooses the appropriate stack applier.
+2. **Config parsing** -- The `items` section and `max-stack-for-all-items` are parsed into a map of material to stack size.
+3. **Item application** -- Each configured item's stack size is applied via the chosen method:
+   - **ItemMeta API** (1.20.5+): Sets `maxStackSize` on the item's `ItemMeta`.
+   - **NMS reflection** (legacy): Modifies the `maxStackSize` field directly on the NMS `Item` class.
+
+## Runtime Behavior
+
+### Inventory Clicks
+
+When a player clicks an item, the server checks the item's current max stack size. Because InventoryStacks has already modified this value, the server allows stacking up to the new limit.
+
+### Item Spawning
+
+Newly spawned items inherit the configured stack size automatically. Existing items in inventories update on next interaction.
+
+### WorldGuard Checks (1.20.5+)
+
+When WorldGuard integration is enabled, the plugin checks if the item's location is inside one of the configured regions before applying custom stacking.
+
+## Cache System
+
+The plugin maintains three caches for performance:
+
+| Cache | Purpose |
+| --- | --- |
+| `cachedDefaultStackSizes` | Original vanilla stack sizes (for NMS reset on reload) |
+| `cachedUpdatedStackSizes` | Configured stack sizes by XMaterial |
+| `cachedUpdatedDirectMaterialSizes` | Configured stack sizes by raw Material (fallback) |
+
+On reload, all caches are cleared and re-populated from the config.
+
+## Item Comparison
+
+The plugin uses `ItemStackComparisonUtil.isSimilarIgnoringMaxStackSize()` to compare items. This matches items by:
+
+- Material type
+- ItemMeta (enchantments, lore, display name, etc.)
+- Durability/damage value
+
+But **ignores** the max stack size, so two items with different configured stack sizes can still merge.

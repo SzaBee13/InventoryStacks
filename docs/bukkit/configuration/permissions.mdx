@@ -1,0 +1,38 @@
+---
+title: Permission-Based Stacking
+description: Opt-in stacking using permission nodes
+---
+
+# Permission-Based Stacking
+
+> **Requires**: Minecraft 1.20.5+ with ItemMeta API mode
+
+When enabled, only players with the `STACKS.USE` permission can benefit from custom stack sizes. Players without the permission see vanilla stack limits.
+
+## Configuration
+
+```yaml
+use-permission:
+  enabled: true
+  auto-stack-cleanup: true
+```
+
+| Setting | Description |
+| --- | ---|
+| `enabled` | Toggle permission-based stacking |
+| `auto-stack-cleanup` | Automatically reset oversized stacks on players without permission |
+
+## How It Works
+
+1. A player picks up or interacts with an item.
+2. The plugin checks if the player has `STACKS.USE`.
+3. If yes, the custom stack size applies.
+4. If no, the item reverts to its vanilla stack size.
+
+The `auto-stack-cleanup` option ensures that players who lose the permission (e.g. via a rank change) don't keep oversized stacks.
+
+## Permission Node
+
+| Node | Description |
+| --- | --- |
+| `STACKS.USE` | Allows the player to use custom stack sizes |

@@ -1,0 +1,41 @@
+---
+title: InventoryStacks
+description: Custom stack sizes for Minecraft servers
+---
+
+# InventoryStacks
+
+**InventoryStacks** lets you change how many items can fit in a single stack. Stack potions, totems, ender pearls, tools, and more past the vanilla limit of 64.
+
+## Quick Links
+
+- **[Getting Started](./bukkit/getting-started/)** -- Install and configure the plugin
+- **[Configuration](./bukkit/configuration/)** -- Full config reference
+- **[Concepts](./concepts/)** -- Understand how stacking works under the hood
+
+## Features
+
+- Custom stack sizes for any item (up to 256)
+- Regex and group-based item matching (e.g. `BEDS`, `WEAPONS`)
+- Dropped-item merging to reduce entity lag
+- Configurable floating holograms above dropped items
+- Permission-based stacking (1.20.5+)
+- WorldGuard region support (1.20.5+)
+- Folia compatibility
+- MiniMessage support
+
+## Supported Versions
+
+| Minecraft Version | Stack Method | Max Stack |
+| --- | --- | --- |
+| 1.8 -- 1.19.x | NMS reflection | Up to 256 |
+| 1.20.x | NMS reflection | Up to 256 |
+| 1.20.5+ | ItemMeta API or NMS data-component reflection | Up to 256 |
+
+## Server Compatibility
+
+| Server Type | Supported |
+| --- | --- |
+| Spigot | Yes |
+| Paper | Yes |
+| Folia | Yes |

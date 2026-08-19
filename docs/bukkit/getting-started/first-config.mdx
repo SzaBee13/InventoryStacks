@@ -1,0 +1,35 @@
+---
+title: First Configuration
+description: Set up your first custom stack sizes
+---
+
+# First Configuration
+
+After installing, edit `plugins/InventoryStacks/config.yml` to define your custom stack sizes.
+
+## Minimal Example
+
+```yaml
+items:
+  TOTEM_OF_UNDYING: 16
+  ENDER_PEARL: 16
+  SPLASH_POTION: 16
+```
+
+This lets players carry 16 totems, ender pearls, or splash potions in a single slot.
+
+## Apply Changes
+
+Run the reload command:
+
+```
+/stacks reload
+```
+
+Changes take effect immediately for newly spawned items. Existing items in inventories will update on next interaction.
+
+## Next Steps
+
+- Learn about [item groups and regex patterns](../configuration/items)
+- Set up [permission-based stacking](../configuration/permissions)
+- Configure [dropped-item holograms](../configuration/holograms)

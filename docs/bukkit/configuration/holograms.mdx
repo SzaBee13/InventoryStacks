@@ -1,0 +1,71 @@
+---
+title: Item Holograms & Ground Merge
+description: Floating labels above dropped items and automatic merge behavior
+---
+
+# Item Holograms & Ground Merge
+
+Show floating labels above dropped items displaying the stack amount, item name, and despawn timer. Optionally merge nearby identical drops into larger stacks.
+
+## Configuration
+
+```yaml
+item-hologram:
+  enabled: true
+  update-interval-ticks: 10
+  y-offset: 0.6
+  show-despawn-timer: true
+  despawn-ticks: 6000
+  format: '&e%amount%x &f%item% &7(%time%)'
+
+  ground-merge-max-amount: 256
+  ground-merge-radius-blocks: 16
+  ground-merge-debug: false
+```
+
+## Hologram Settings
+
+| Setting | Description |
+| --- | --- |
+| `enabled` | Toggle hologram display |
+| `update-interval-ticks` | How often holograms update (in ticks) |
+| `y-offset` | Vertical offset above the item entity |
+| `show-despawn-timer` | Display time remaining until despawn |
+| `despawn-ticks` | Total ticks before the item despawns (6000 = 5 minutes) |
+| `format` | Display format string |
+
+### Format Placeholders
+
+| Placeholder | Description |
+| --- | --- |
+| `%amount%` | Total stack amount |
+| `%item%` | Pretty-printed item name (e.g. "Diamond Sword") |
+| `%time%` | Time until despawn (e.g. "4m 32s") |
+
+## Ground Merge Settings
+
+> These settings work **even when `enabled` is false** for holograms.
+
+| Setting | Description |
+| --- | --- |
+| `ground-merge-max-amount` | Maximum items per dropped stack. Set to 64 for vanilla behavior |
+| `ground-merge-radius-blocks` | Radius to search for nearby merge candidates (default 16 blocks) |
+| `ground-merge-debug` | Log detailed merge/pickup info to console |
+
+## How Ground Merge Works
+
+1. When an item drops, the plugin searches for nearby identical items within `ground-merge-radius-blocks`.
+2. Found items are merged into the target up to `ground-merge-max-amount`.
+3. The despawn timer resets on merged items, keeping them alive longer.
+4. On pickup, the full merged amount enters the player's inventory.
+
+This significantly reduces entity count when many identical items drop in the same area.
+
+## Debug Mode
+
+Enable `ground-merge-debug: true` to see detailed logs:
+
+```
+[ground-merge-debug] spawn item=abc123(DIAMONDx32/total=32) cap=256 radius=16.00
+[ground-merge-debug] nearby-merge-complete target=abc123 mergedCount=3 finalTotal=128
+```

@@ -1,0 +1,53 @@
+---
+title: Compatibility
+description: Supported Minecraft versions and server types
+---
+
+# Compatibility
+
+## Minecraft Versions
+
+| Version Range | Stack Method | Max Stack | Notes |
+| --- | --- | --- | --- |
+| 1.8 -- 1.16.x | NMS reflection (per-version packages) | 256 | Full feature support |
+| 1.17 -- 1.19.x | NMS reflection (unified package) | 256 | Full feature support |
+| 1.20 -- 1.20.4 | NMS reflection | 256 | Full feature support |
+| 1.20.5+ | ItemMeta API (default) or NMS data-component reflection | 256 | Permission stacking, WorldGuard support |
+
+## Server Types
+
+| Server | Supported | Notes |
+| --- | --- | --- |
+| Spigot | Yes | Full support |
+| Paper | Yes | Full support |
+| Folia | Yes | Requires `item-change-delay` tuning |
+
+## Feature Availability
+
+| Feature | 1.8 -- 1.19 | 1.20 -- 1.20.4 | 1.20.5+ |
+| --- | --- | --- | --- |
+| Custom stack sizes | Yes | Yes | Yes |
+| `/stack` command | Yes | Yes | Yes |
+| Item holograms | Yes | Yes | Yes |
+| Ground merge | Yes | Yes | Yes |
+| Permission stacking | No | No | Yes |
+| WorldGuard regions | No | No | Yes |
+| MiniMessage | Yes | Yes | Yes |
+| Bundle fix | No | No | Yes |
+
+## NMS Reflection Details
+
+The plugin uses different NMS field names depending on the server version:
+
+| Version | NMS Field |
+| --- | --- |
+| 1.8 -- 1.16.x | `maxStackSize` (per-version package) |
+| 1.17 | `c` |
+| 1.18 -- 1.20.4 | `d` |
+| 1.20.5+ | Data components (no legacy field) |
+
+## Folia Notes
+
+Folia uses region-based threading. The plugin is compatible but you may need to increase `item-change-delay` (e.g. to 4-6 ticks) for bucket and damage actions to work correctly.
+
+The hologram system uses Folia's `GlobalRegionScheduler` automatically when detected.

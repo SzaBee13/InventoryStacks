@@ -1,0 +1,44 @@
+---
+title: WorldGuard Integration
+description: Restrict stacking to specific WorldGuard regions
+---
+
+# WorldGuard Integration
+
+> **Requires**: Minecraft 1.20.5+ with ItemMeta API mode
+
+WorldGuard support lets you restrict custom stacking to specific regions. Outside those regions, items use vanilla stack sizes.
+
+## Configuration
+
+```yaml
+worldguard:
+  enabled: true
+  hopper-support: false
+  auto-stack-cleanup: true
+  enabled-regions:
+    - Spawn
+    - ShopArea
+```
+
+| Setting | Description |
+| --- | --- |
+| `enabled` | Toggle WorldGuard support (requires WorldGuard plugin) |
+| `hopper-support` | Apply stacking rules to hoppers (can cause lag -- disabled by default) |
+| `auto-stack-cleanup` | Remove custom stacks from items outside enabled regions |
+| `enabled-regions` | List of WorldGuard region IDs where stacking is allowed |
+
+## How It Works
+
+1. An item is created or interacts with an inventory.
+2. The plugin checks the item's location against `enabled-regions`.
+3. If the item is inside one of the listed regions, custom stacking applies.
+4. If outside all listed regions, vanilla stack sizes are used.
+
+When `enabled-regions` is empty, stacking applies everywhere (same as WorldGuard being disabled).
+
+## Notes
+
+- WorldGuard is a **soft dependency**. The plugin works without it.
+- Hopper support is disabled by default because checking regions for every hopper transfer can cause lag on large servers.
+- Restart your server after enabling WorldGuard support for the first time.

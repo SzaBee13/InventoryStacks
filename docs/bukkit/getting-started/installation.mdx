@@ -1,0 +1,36 @@
+---
+title: Installation
+description: How to install InventoryStacks on your server
+---
+
+# Installation
+
+## Download
+
+Download the latest InventoryStacks JAR from the releases page.
+
+## Install
+
+1. Stop your server (if running).
+2. Place the `InventoryStacks.jar` file into your server's `plugins/` folder.
+3. Start your server.
+
+The plugin will generate a default `config.yml` on first load.
+
+## Verify
+
+Run the following command in console or in-game:
+
+```
+/stacks reload
+```
+
+If you see a success message, the plugin is active.
+
+## Optional Dependencies
+
+| Plugin | Purpose |
+| --- | --- |
+| [WorldGuard](https://worldguard.enginehub.org/) | Restrict stacking to specific regions (1.20.5+ only) |
+
+WorldGuard is a **soft dependency**. The plugin works fully without it.

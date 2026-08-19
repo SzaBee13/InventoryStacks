@@ -1,0 +1,73 @@
+---
+title: Ground Merge System
+description: How dropped-item merging works
+---
+
+# Ground Merge System
+
+The ground merge system automatically combines nearby identical dropped items into larger stacks, reducing entity count and lag.
+
+## Overview
+
+When items drop on the ground, vanilla Minecraft merges pairs up to 64. InventoryStacks extends this behavior to merge up to a configurable maximum (e.g. 256 or 4096).
+
+## How It Works
+
+### 1. Item Spawn
+
+When an item entity spawns:
+
+1. The plugin waits 1 tick for the entity to stabilize.
+2. It searches for nearby identical items within `ground-merge-radius-blocks`.
+3. Found items are merged into the target up to `ground-merge-max-amount`.
+4. The target's despawn timer resets.
+
+### 2. Vanilla Merge Event
+
+When two items naturally try to merge via Minecraft's built-in `ItemMergeEvent`:
+
+1. The plugin intercepts the event at `HIGHEST` priority.
+2. If the target is at the merge cap, the merge is cancelled.
+3. Otherwise, the plugin handles the merge itself (up to the cap).
+
+### 3. Pickup
+
+When a player or hopper picks up a merged item:
+
+1. The plugin checks if the item has a stored total (via PersistentDataContainer).
+2. The full amount is inserted into the inventory, not just the physical stack.
+3. Excess items remain on the ground.
+
+## Data Storage
+
+Merged items use the `PersistentDataContainer` to store the true total:
+
+- **Key**: `inventorystacks:ground_stack_total`
+- **Type**: `INTEGER`
+- **Behavior**: The physical `ItemStack.amount` is capped at the item's vanilla max, but the PDC stores the real total.
+
+## Configuration Reference
+
+```yaml
+item-hologram:
+  ground-merge-max-amount: 256    # Max items per stack
+  ground-merge-radius-blocks: 16  # Search radius in blocks
+  ground-merge-debug: false       # Debug logging
+```
+
+## Performance Considerations
+
+- **Radius**: Larger radii mean more entity lookups per spawn. 16 blocks is a good default.
+- **Cap**: Higher caps keep more items merged but require more PDC operations.
+- **Debug**: Enable only when troubleshooting -- it logs every merge attempt.
+
+## Debug Output
+
+When `ground-merge-debug: true`:
+
+```
+[ground-merge-debug] spawn item=uuid(DIAMONDx32/total=32) cap=256 radius=16.00
+[ground-merge-debug] nearby-merge-step target=uuid source=uuid2 targetTotal=64 remaining=192 cap=256
+[ground-merge-debug] nearby-merge-complete target=uuid mergedCount=5 finalTotal=256
+[ground-merge-debug] pickup-player player=Steve item=uuid total=256 inserted=256 remaining=0
+```

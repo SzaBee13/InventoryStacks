@@ -1,0 +1,48 @@
+---
+title: Configuration
+description: Full configuration reference for InventoryStacks
+---
+
+# Configuration
+
+All settings are in `plugins/InventoryStacks/config.yml`. Run `/stacks reload` after making changes.
+
+## Sections
+
+| Section | Description |
+| --- | --- |
+| [Items](./items) | Define custom stack sizes per item or item group |
+| [Permissions](./permissions) | Opt-in stacking via permission nodes (1.20.5+) |
+| [WorldGuard](./worldguard) | Restrict stacking to WorldGuard regions |
+| [Holograms](./holograms) | Floating labels above dropped items |
+| [Commands](./commands) | Configure the `/stack` command |
+| [Messages](./messages) | Customize all plugin messages |
+
+## General Settings
+
+```yaml
+# Check for plugin updates on startup
+check-for-updates: true
+
+# Extra console logging for troubleshooting
+debug-mode: false
+
+# Use MiniMessage formatting (clickable links, etc.)
+use-mini-message: false
+
+# Update rate for bucket/drink/damage actions (in ticks)
+# Increase on Folia for stability
+item-change-delay: 2
+```
+
+## Advanced Settings
+
+```yaml
+# 1.20.5+ only: force legacy NMS reflection instead of ItemMeta
+# May improve performance on large servers
+# Requires restart to toggle
+use-legacy-reflection: false
+
+# 1.20.5+ only: reset items not in "items" section to vanilla defaults
+auto-stack-cleanup: true
+```

@@ -1,0 +1,59 @@
+---
+title: Command Configuration
+description: Configure the /stack command
+---
+
+# Command Configuration
+
+## `/stack` Command
+
+Lets players manually consolidate items in their inventory.
+
+```yaml
+stack-command:
+  enabled: true
+  default-stack-type: 'HAND'
+```
+
+| Setting | Description |
+| --- | --- |
+| `enabled` | Toggle the `/stack` command |
+| `default-stack-type` | `HAND` or `ALL` -- used when no argument is given |
+
+### Stack Types
+
+| Type | Description |
+| --- | --- |
+| `HAND` | Consolidates all items matching the one in the player's main hand |
+| `ALL` | Consolidates all stackable items across the entire inventory |
+
+### Usage
+
+```
+/stack           # Uses the default stack type
+/stack HAND      # Stack items matching main hand
+/stack ALL       # Stack all items in inventory
+```
+
+### Permissions
+
+| Node | Description |
+| --- | --- |
+| `STACKS.COMMAND` | Allow using `/stack` |
+| `STACKS.*` | Allow all InventoryStacks commands |
+
+## Reload Commands
+
+```
+/stacks reload
+/inventorystacks reload
+```
+
+Both commands reload all configuration files and apply changes immediately.
+
+### Permissions
+
+| Node | Description |
+| --- | --- |
+| `STACKS.RELOAD` | Allow reloading configuration |
+| `STACKS.*` | Allow all InventoryStacks commands |

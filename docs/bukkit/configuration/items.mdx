@@ -1,0 +1,115 @@
+---
+title: Item Stack Configuration
+description: Configure custom stack sizes for items
+---
+
+# Item Stack Configuration
+
+Define custom stack sizes in the `items` section of `config.yml`.
+
+## Basic Format
+
+```yaml
+items:
+  MATERIAL_NAME: stack_size
+```
+
+### Examples
+
+```yaml
+items:
+  TOTEM_OF_UNDYING: 16
+  ENDER_PEARL: 16
+  SPLASH_POTION: 16
+  BUNDLE: 16
+```
+
+## Predefined Groups
+
+Groups apply a stack size to all matching items at once.
+
+```yaml
+items:
+  BEDS: 16
+  POTIONS: 16
+  TOOLS: 16
+  WEAPONS: 16
+  ARMOR: 16
+```
+
+### Available Groups
+
+| Group | Matches |
+| --- | --- |
+| `BEDS` | All `*_BED` materials |
+| `POTIONS` | `POTION`, `SPLASH_POTION`, `LINGERING_POTION` |
+| `STEWS` | `MUSHROOM_STEW`, `RABBIT_STEW`, `SUSPICIOUS_STEW`, `BEETROOT_SOUP` |
+| `BUCKETS` | `BUCKET` and all `*_BUCKET` materials |
+| `BOATS` | All `*_BOAT`, `*_CHEST_BOAT`, `*_RAFT`, `*_CHEST_RAFT` |
+| `MINECARTS` | `MINECART` and all `*_MINECART` |
+| `TOOLS` | `SHEARS`, `FISHING_ROD`, `BRUSH`, `FLINT_AND_STEEL`, all `*_(PICKAXE\|AXE\|SHOVEL\|HOE)` |
+| `WEAPONS` | `BOW`, `CROSSBOW`, `TRIDENT`, `MACE`, all `*_SWORD`, all `*_AXE` |
+| `ARMOR` | `ELYTRA`, `TURTLE_HELMET`, all `*_(HELMET\|CHESTPLATE\|LEGGINGS\|BOOTS\|HORSE_ARMOR)` |
+| `HORSE_ARMOR` | All `*_HORSE_ARMOR` |
+| `DYES` | All `*_DYE` |
+| `SIGNS` | All `*_SIGN` and `*_HANGING_SIGN` |
+| `DOORS` | All `*_DOOR` |
+| `TRAPDOORS` | All `*_TRAPDOOR` |
+| `BUTTONS` | All `*_BUTTON` |
+| `PRESSURE_PLATES` | All `*_PRESSURE_PLATE` |
+| `FENCES` | All `*_FENCE` and `*_FENCE_GATE` |
+| `SLABS` | All `*_SLAB` |
+| `STAIRS` | All `*_STAIRS` |
+| `WALLS` | All `*_WALL` |
+| `CARPETS` | All `*_CARPET` |
+| `BANNERS` | All `*_BANNER` |
+| `MUSIC_DISCS` | All `MUSIC_DISC_*` |
+| `ENCHANTED_BOOKS` | `ENCHANTED_BOOK` |
+| `SPAWN_EGGS` | All `*_SPAWN_EGG` |
+| `ARROWS` | `ARROW`, `SPECTRAL_ARROW`, `TIPPED_ARROW` |
+| `FIREWORKS` | `FIREWORK_ROCKET`, `FIREWORK_STAR` |
+| `FOOD` | All food items (apple, bread, cooked meats, etc.) |
+
+## Regex Patterns
+
+Any key that is not a predefined group is treated as a **regex pattern** (case-insensitive).
+
+```yaml
+items:
+  # Match all wooden pickaxes
+  ".*_PICKAXE": 16
+  # Match all swords
+  ".*_SWORD": 8
+```
+
+## Exact Material Names
+
+You can also use exact material names:
+
+```yaml
+items:
+  TOTEM_OF_UNDYING: 16
+  ECHO_SHARD: 64
+```
+
+## Stack Size Limits
+
+- **Minimum**: 1
+- **Maximum**: 256 (hard server-side limit)
+
+Values outside this range are clamped automatically with a console warning.
+
+## Bulk Stack for All Items
+
+Set a stack size for every item at once, with a whitelist for exceptions:
+
+```yaml
+max-stack-for-all-items:
+  enabled: true
+  amount: 256
+  whitelist:
+    - BED
+    - BUNDLE
+```
+
+Items already listed in `items` are automatically whitelisted.
