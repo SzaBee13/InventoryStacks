@@ -24,6 +24,7 @@ import me.szabee.inventorystacks.listeners.itemmeta.UpdateItemMeta;
 import me.szabee.inventorystacks.managers.ItemHologramManager;
 import me.szabee.inventorystacks.managers.SettingsManager;
 import me.szabee.inventorystacks.util.ConsoleUtil;
+import me.szabee.inventorystacks.util.PermissionUtil;
 
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 
@@ -80,6 +81,8 @@ public class InventoryStacks extends JavaPlugin {
 			getServer().getPluginManager().registerEvents(new PlayerInteract(), this);
 			getServer().getPluginManager().registerEvents(new BlockDispense(), this);
 		}
+
+		PermissionUtil.reload();
 
 		ConsoleUtil.sendPluginEndSetup();
 	}

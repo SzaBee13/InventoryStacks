@@ -3,11 +3,13 @@ package me.szabee.inventorystacks.commands;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import me.szabee.inventorystacks.InventoryStacks;
 import me.szabee.inventorystacks.handlers.ItemHandler;
 import me.szabee.inventorystacks.hooks.WorldGuardHook;
 import me.szabee.inventorystacks.util.MessagesUtil;
+import me.szabee.inventorystacks.util.PermissionUtil;
 
 public class ReloadCmd implements CommandExecutor {
 
@@ -25,7 +27,7 @@ public class ReloadCmd implements CommandExecutor {
 			return false;
 		}
 
-		if (!sender.hasPermission("STACKS.*") && !sender.hasPermission("STACKS.RELOAD")) {
+		if (!(sender instanceof Player) || !PermissionUtil.hasPermissionOrWildcard((Player) sender, "STACKS.RELOAD")) {
 			MessagesUtil.sendMessage(sender, MessagesUtil.NO_PERMISSION.toString());
 			return false;
 		}
@@ -38,6 +40,7 @@ public class ReloadCmd implements CommandExecutor {
 		PLUGIN.reloadMessaging();
 		PLUGIN.reloadItemHologramManager();
 		ItemHandler.getInstance().reloadInventoryStacks();
+		PermissionUtil.reload();
 		MessagesUtil.sendMessage(sender, MessagesUtil.RELOAD.toString());
 		return false;
 	}

@@ -16,6 +16,7 @@ This is a hard fork of [InventoryStacks](https://github.com/BrilliantTeam/Invent
 - **WorldGuard region support** -- restrict custom stacking to specific WorldGuard regions (1.20.5+)
 - **Configurable merge radius** -- tune how far dropped items search for merge candidates
 - **Debug mode** -- detailed console logging for ground-merge and pickup troubleshooting
+- **Permissions**
 
 **Fixes:**
 

@@ -19,22 +19,24 @@ public class StackCmd implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		if (!sender.hasPermission("STACKS.*") && !sender.hasPermission("STACKS.COMMAND")) {
+			MessagesUtil.sendMessage(sender, MessagesUtil.NO_PERMISSION.toString());
+			return false;
+		}
+
 		if (!InventoryStacks.getInstance().getConfig().getBoolean("stack-command.enabled")) {
 			MessagesUtil.sendMessage(sender, MessagesUtil.COMMAND_DISABLED.toString());
 			return false;
 		}
 
-		if (sender instanceof ConsoleCommandSender) {
+		if (!(sender instanceof Player)) {
 			MessagesUtil.sendMessage(sender, MessagesUtil.IN_GAME.toString());
 			return false;
 		}
 
-		if (args.length == 0) {
-			if (!sender.hasPermission("STACKS.*") && !sender.hasPermission("STACKS.COMMAND")) {
-				MessagesUtil.sendMessage(sender, MessagesUtil.NO_PERMISSION.toString());
-				return false;
-			}
+		Player player = (Player) sender;
 
+		if (args.length == 0) {
 			String defaultStackType = InventoryStacks.getInstance().getConfig()
 					.isSet("stack-command.defualt-stack-type")
 							? InventoryStacks.getInstance().getConfig().getString("stack-command.defualt-stack-type")
@@ -48,7 +50,7 @@ public class StackCmd implements CommandExecutor {
 				return false;
 			}
 
-			stack((Player) sender, stackType);
+			stack(player, stackType);
 		} else if (args.length == 1) {
 			StackType stackType = StackType.getStackTypeFromName(args[0]);
 
@@ -58,7 +60,7 @@ public class StackCmd implements CommandExecutor {
 				return false;
 			}
 
-			stack((Player) sender, stackType);
+			stack(player, stackType);
 		} else {
 			MessagesUtil.sendMessage(sender, MessagesUtil.INCORRECT_USAGE.toString().replaceAll("%command%", "/stack"));
 			return false;
@@ -91,7 +93,7 @@ public class StackCmd implements CommandExecutor {
 		ItemStack item = getItemInHand(player).clone();
 		ItemStack[] items = player.getInventory().getContents();
 		int amount = item.getAmount();
-		int maxAmount = getMaxStack(item);
+		int maxAmount = getMaxStack(player, item);
 
 		for (int slot = 0; slot < items.length; slot++) {
 			ItemStack foundItem = items[slot];
@@ -142,7 +144,7 @@ public class StackCmd implements CommandExecutor {
 			if (item == null || item.getAmount() <= 0)
 				continue;
 
-			int max = getMaxStack(item);
+			int max = getMaxStack(player, item);
 
 			if (item.getAmount() < max) {
 				int neededUntilMax = max - item.getAmount();
@@ -174,16 +176,26 @@ public class StackCmd implements CommandExecutor {
 		}
 	}
 
-	private int getMaxStack(ItemStack stack) {
+	private int getMaxStack(Player player, ItemStack stack) {
+		int max;
+
 		if (!ItemHandler.getInstance().isUsingModernAPI())
-			return stack.getType().getMaxStackSize();
+			max = stack.getType().getMaxStackSize();
+		else {
+			ItemMeta currentMeta = stack.getItemMeta();
 
-		ItemMeta currentMeta = stack.getItemMeta();
+			if (currentMeta == null || !currentMeta.hasMaxStackSize())
+				max = stack.getMaxStackSize();
+			else
+				max = currentMeta.getMaxStackSize();
+		}
 
-		if (currentMeta == null || !currentMeta.hasMaxStackSize())
-			return stack.getMaxStackSize();
+		int permissionMax = me.szabee.inventorystacks.util.PermissionUtil.getPlayerStackSize(player);
+		if (permissionMax > max) {
+			max = permissionMax;
+		}
 
-		return currentMeta.getMaxStackSize();
+		return max;
 	}
 
 	private enum StackType {

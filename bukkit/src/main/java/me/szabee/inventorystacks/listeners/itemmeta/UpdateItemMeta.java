@@ -21,6 +21,7 @@ import me.szabee.inventorystacks.InventoryStacks;
 import me.szabee.inventorystacks.handlers.ItemHandler;
 import me.szabee.inventorystacks.hooks.WorldGuardHook;
 import me.szabee.inventorystacks.scheduler.Schedule;
+import me.szabee.inventorystacks.util.PermissionUtil;
 
 public class UpdateItemMeta implements Listener {
 
@@ -88,7 +89,8 @@ public class UpdateItemMeta implements Listener {
 		if (!shouldHandle(player, loc, stack))
 			return;
 
-		ItemHandler.getInstance().applyItem(false, stack);
+		Integer permissionSize = resolvePlayerStackSize(player);
+		ItemHandler.getInstance().applyItem(false, stack, permissionSize);
 	}
 
 	private void callLater(Location loc, ItemStack stack) {
@@ -126,13 +128,11 @@ public class UpdateItemMeta implements Listener {
 			return false;
 		}
 
-		if (config.getBoolean("use-permission.enabled", false) && player != null) {
-			if (!player.hasPermission("STACKS.*") && !player.hasPermission("STACKS.USE")) {
-				if (config.getBoolean("use-permission.auto-stack-cleanup", true)) {
-					handleCleanup(stack);
-				}
-				return false;
+		if (!PermissionUtil.canUseCustomStacks(player)) {
+			if (config.getBoolean("use-permission.auto-stack-cleanup", true)) {
+				handleCleanup(stack);
 			}
+			return false;
 		}
 
 		if (WorldGuardHook.isEnabled() && !WorldGuardHook.isInTargetRegion(loc)) {
@@ -143,6 +143,14 @@ public class UpdateItemMeta implements Listener {
 		}
 
 		return true;
+	}
+
+	private Integer resolvePlayerStackSize(Player player) {
+		if (player == null)
+			return null;
+
+		int permissionSize = PermissionUtil.getPlayerStackSize(player);
+		return permissionSize > 0 ? permissionSize : null;
 	}
 
 	private void handleCleanup(ItemStack stack) {

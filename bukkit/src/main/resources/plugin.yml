@@ -12,3 +12,19 @@ commands:
      description: Reload inventory stacks.
     inventorystacks:
      description: Reload inventory stacks.
+permissions:
+    STACKS.*:
+     description: Grants all InventoryStacks permissions
+     default: op
+    STACKS.COMMAND:
+     description: Allows use of the /stack command
+     default: op
+    STACKS.RELOAD:
+     description: Allows use of /stacks reload
+     default: op
+    STACKS.USE:
+     description: Allows the player to benefit from custom stack sizes
+     default: true
+    STACKS.SIZE.*:
+     description: Wildcard for all STACKS.SIZE permissions
+     default: op

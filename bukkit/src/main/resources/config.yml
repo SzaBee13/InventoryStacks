@@ -132,3 +132,18 @@ prevent-shift-combining-damageable-items: true
 # This makes it so brewing stands only allow 1 potion in the potion slot
 
 one-potion-per-slot: true
+
+# Minecraft 1.20.5+ ONLY
+# Permission-based stack sizes
+# When enabled, players can have different max stack sizes based on their permissions.
+# Requires STACKS.SIZE.<amount> permissions (e.g. STACKS.SIZE.64, STACKS.SIZE.128).
+# The highest permitted size overrides the config-defined size for that player.
+# Players with no STACKS.SIZE permission fall back to the config-defined size.
+permission-based-stack-sizes:
+  enabled: false
+  sizes: # List of allowed stack sizes, checked from highest to lowest
+  - 16
+  - 32
+  - 64
+  - 128
+  - 256

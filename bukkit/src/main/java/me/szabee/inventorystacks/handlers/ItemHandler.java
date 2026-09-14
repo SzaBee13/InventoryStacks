@@ -168,6 +168,10 @@ public class ItemHandler {
 	}
 
 	public void applyItem(boolean isStartUp, ItemStack stack) {
+		applyItem(isStartUp, stack, null);
+	}
+
+	public void applyItem(boolean isStartUp, ItemStack stack, Integer permissionSize) {
 		if (stack == null || stack.getType() == Material.AIR)
 			return;
 
@@ -178,6 +182,10 @@ public class ItemHandler {
 			if (amount == null)
 				return;
 
+			if (permissionSize != null && permissionSize > amount) {
+				amount = permissionSize;
+			}
+
 			applier.applyItem(isStartUp, stack, amount);
 			return;
 		}
@@ -185,6 +193,10 @@ public class ItemHandler {
 		Integer amount = cachedUpdatedDirectMaterialSizes.get(stack.getType());
 		if (amount == null)
 			return;
+
+		if (permissionSize != null && permissionSize > amount) {
+			amount = permissionSize;
+		}
 
 		applier.applyItem(isStartUp, stack, amount);
 	}

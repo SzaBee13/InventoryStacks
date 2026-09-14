@@ -12,7 +12,9 @@ description: All permission nodes for InventoryStacks
 | `STACKS.*` | All InventoryStacks permissions | `op` |
 | `STACKS.COMMAND` | Use `/stack` to consolidate items | `op` |
 | `STACKS.RELOAD` | Reload configuration with `/stacks reload` | `op` |
-| `STACKS.USE` | Benefit from custom stack sizes (1.20.5+ permission mode) | `true` |
+| `STACKS.USE` | Benefit from custom stack sizes | `true` |
+| `STACKS.SIZE.*` | Wildcard for all `STACKS.SIZE` permissions | `op` |
+| `STACKS.SIZE.<amount>` | Set a player's max stack size (see below) | `op` |
 
 ## Usage with Permission Plugins
 
@@ -21,6 +23,7 @@ description: All permission nodes for InventoryStacks
 ```
 /lp user Steve permission set STACKS.COMMAND true
 /lp user Steve permission set STACKS.USE true
+/lp user Steve permission set STACKS.SIZE.64 true
 ```
 
 ### For All Players
@@ -38,3 +41,39 @@ When `use-permission.enabled: true` in config, the `STACKS.USE` node controls wh
 - **No permission**: Vanilla stack sizes apply
 
 See [Permission Configuration](../configuration/permissions) for details.
+
+## Per-Player Stack Sizes (1.20.5+)
+
+When `permission-based-stack-sizes.enabled: true` in config, players can have
+different max stack sizes based on `STACKS.SIZE.<amount>` permissions.
+
+**How it works:**
+1. Enable `permission-based-stack-sizes.enabled: true` in `config.yml`
+2. Define allowed sizes under `permission-based-stack-sizes.sizes` (e.g. 16, 32, 64, 128, 256)
+3. Grant players the appropriate `STACKS.SIZE.<amount>` permission
+4. The **highest permitted size** overrides the config-defined max for that player
+5. Players with **no** `STACKS.SIZE` permission fall back to the config-defined max
+
+**Example config:**
+```yaml
+permission-based-stack-sizes:
+  enabled: true
+  sizes:
+  - 16
+  - 32
+  - 64
+  - 128
+  - 256
+```
+
+**Example LuckPerms setup:**
+```
+/lp group vip permission set STACKS.SIZE.64 true
+/lp group mvp permission set STACKS.SIZE.128 true
+/lp group admin permission set STACKS.SIZE.256 true
+```
+
+**Notes:**
+- This feature only works on the modern API path (Paper 1.20.5+)
+- Legacy NMS path (pre-1.20.5) modifies `Material` globally and cannot support per-player sizes
+- Permission-based sizes only increase the stack limit — they never lower it below the config-defined max
