@@ -10,7 +10,7 @@ configurations.all {
 }
 
 dependencies {
-  compileOnly("io.papermc.paper:paper-api:26.2-rc-2.build.9-alpha")
+  compileOnly("io.papermc.paper:paper-api:26.3.build.7-alpha")
   implementation("net.kyori:adventure-platform-bukkit:4.3.4")
   implementation("net.kyori:adventure-text-minimessage:4.17.0")
   compileOnly("net.dmulloy2:ProtocolLib:5.4.0")

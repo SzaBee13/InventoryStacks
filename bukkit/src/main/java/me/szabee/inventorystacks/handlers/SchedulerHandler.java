@@ -3,7 +3,6 @@ package me.szabee.inventorystacks.handlers;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import me.szabee.inventorystacks.InventoryStacks;
 import me.szabee.inventorystacks.util.ServerTypeUtil;

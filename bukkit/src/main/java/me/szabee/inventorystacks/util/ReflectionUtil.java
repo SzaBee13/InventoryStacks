@@ -19,7 +19,6 @@ import org.bukkit.Material;
 
 import me.szabee.inventorystacks.InventoryStacks;
 import me.szabee.inventorystacks.handlers.ItemHandler;
-import me.szabee.inventorystacks.util.XMaterialUtil;
 
 @SuppressWarnings("deprecation")
 public final class ReflectionUtil {
