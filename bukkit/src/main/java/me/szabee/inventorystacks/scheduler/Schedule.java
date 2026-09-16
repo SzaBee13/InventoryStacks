@@ -1,29 +1,50 @@
 package me.szabee.inventorystacks.scheduler;
 
-import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 
-import me.szabee.inventorystacks.InventoryStacks;
-import me.szabee.inventorystacks.handlers.ItemHandler;
-import me.szabee.inventorystacks.util.ServerTypeUtil;
+import me.szabee.inventorystacks.handlers.SchedulerHandler;
 
 public abstract class Schedule implements Runnable {
 
-	private final boolean USING_FOLIA = ItemHandler.getInstance().getServerType() == ServerTypeUtil.FOLIA;
-
 	public void runTask() {
-		if (USING_FOLIA) {
-			Bukkit.getGlobalRegionScheduler().execute(InventoryStacks.getInstance(), this);
-		} else {
-			Bukkit.getScheduler().runTask(InventoryStacks.getInstance(), this);
-		}
+		SchedulerHandler.getInstance().runTask(this);
 	}
 
 	public void runTaskLater(long delay) {
-		if (USING_FOLIA) {
-			Bukkit.getGlobalRegionScheduler().runDelayed(InventoryStacks.getInstance(), t -> this.run(), delay);
+		SchedulerHandler.getInstance().runTaskLater(this, delay);
+	}
+
+	public void runTask(Entity entity) {
+		if (entity != null) {
+			SchedulerHandler.getInstance().runTask(entity, this);
 		} else {
-			Bukkit.getScheduler().runTaskLater(InventoryStacks.getInstance(), this, delay);
+			runTask();
 		}
 	}
-	
+
+	public void runTaskLater(Entity entity, long delay) {
+		if (entity != null) {
+			SchedulerHandler.getInstance().runTaskLater(entity, this, delay);
+		} else {
+			runTaskLater(delay);
+		}
+	}
+
+	public void runTask(Location location) {
+		if (location != null) {
+			SchedulerHandler.getInstance().runTask(location, this);
+		} else {
+			runTask();
+		}
+	}
+
+	public void runTaskLater(Location location, long delay) {
+		if (location != null) {
+			SchedulerHandler.getInstance().runTaskLater(location, this, delay);
+		} else {
+			runTaskLater(delay);
+		}
+	}
+
 }

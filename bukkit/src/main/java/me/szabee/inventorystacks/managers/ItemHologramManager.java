@@ -136,25 +136,52 @@ public class ItemHologramManager {
 		if (!enabled)
 			return;
 
-		itemToHologram.entrySet().removeIf(entry -> {
-			Item item = resolveItem(entry.getKey());
-			ArmorStand stand = resolveStand(entry.getValue());
+		for (UUID itemId : itemToHologram.keySet()) {
+			Item item = resolveItem(itemId);
 
-			if (!isTrackable(item)) {
-				removeStand(entry.getValue());
-				return true;
+			if (item == null) {
+				removeStandEntry(itemId);
+				continue;
 			}
 
+			if (ServerTypeUtil.isFolia()) {
+				item.getScheduler().execute(plugin, () -> updateEntry(itemId), null, 0);
+			} else {
+				updateEntry(itemId);
+			}
+		}
+	}
+
+	private void updateEntry(UUID itemId) {
+		if (itemId == null)
+			return;
+
+		Item item = resolveItem(itemId);
+
+		if (!isTrackable(item)) {
+			removeStandEntry(itemId);
+			return;
+		}
+
+		ArmorStand stand = resolveStand(itemToHologram.get(itemId));
+
+		if (stand == null) {
+			stand = spawnHologram(item);
 			if (stand == null) {
-				stand = spawnHologram(item);
-				if (stand == null)
-					return true;
-				entry.setValue(stand.getUniqueId());
+				removeStandEntry(itemId);
+				return;
 			}
+			itemToHologram.put(itemId, stand.getUniqueId());
+		}
 
-			updateHologram(item, stand);
-			return false;
-		});
+		updateHologram(item, stand);
+	}
+
+	private void removeStandEntry(UUID itemId) {
+		if (itemId == null)
+			return;
+
+		removeStand(itemToHologram.remove(itemId));
 	}
 
 	private boolean isTrackable(Item item) {
@@ -282,8 +309,20 @@ public class ItemHologramManager {
 	}
 
 	private void removeStand(UUID standId) {
+		if (standId == null)
+			return;
+
 		ArmorStand stand = resolveStand(standId);
-		if (stand != null) {
+		if (stand == null)
+			return;
+
+		if (ServerTypeUtil.isFolia()) {
+			stand.getScheduler().execute(plugin, () -> {
+				ArmorStand current = resolveStand(standId);
+				if (current != null)
+					current.remove();
+			}, null, 0);
+		} else {
 			stand.remove();
 		}
 	}

@@ -47,7 +47,7 @@ public class DroppedItemMerge implements Listener {
 				debug("spawn-deferred item=%s cap=%d radius=%.2f", simpleItem(spawnedItem), mergeCap, mergeRadius);
 				mergeIntoNearby(spawnedItem, mergeCap, mergeRadius);
 			}
-		}.runTaskLater(1L);
+		}.runTaskLater(spawnedItem, 1L);
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)

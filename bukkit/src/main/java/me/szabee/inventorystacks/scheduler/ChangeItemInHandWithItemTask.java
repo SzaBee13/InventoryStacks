@@ -26,6 +26,8 @@ public class ChangeItemInHandWithItemTask extends Schedule {
 	@Override
 	public void run() {
 		Player player = this.player.get();
+		if (player == null || !player.isOnline())
+			return;
 		updateItem(player, item, material);
 		ItemUtil.addItem(player, addedItem);
 	}

@@ -56,7 +56,7 @@ public class ItemHandler {
 			String pkg = Bukkit.getServer().getClass().getPackage().getName();
 			String versionFound = pkg.substring(pkg.lastIndexOf('.') + 1);
 			ConsoleUtil.warning("THE VERSION: " + versionFound + " IS CURRENTLY UNSUPPORTED. DISABLING PLUGIN...");
-			Bukkit.getScheduler().runTask(PLUGIN, () -> {
+			SchedulerHandler.getInstance().runTask(() -> {
 				Bukkit.getPluginManager().disablePlugin(PLUGIN);
 			});
 			return false;

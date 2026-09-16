@@ -22,6 +22,8 @@ public class DamageItemTask extends Schedule {
 	@Override
 	public void run() {
 		Player player = this.player.get();
+		if (player == null || !player.isOnline())
+			return;
 		item.setAmount(1);
 		ItemUtil.addItem(player, clone);
 		player.updateInventory();

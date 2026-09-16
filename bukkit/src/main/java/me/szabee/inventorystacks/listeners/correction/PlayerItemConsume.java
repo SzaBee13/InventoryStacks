@@ -47,7 +47,7 @@ public class PlayerItemConsume implements Listener {
 
 		ChangeItemInHandWithItemTask changeItemTask = new ChangeItemInHandWithItemTask(e.getPlayer(), clone,
 				new ItemStack(XMaterialUtil.BOWL.get()), XMaterialUtil.BOWL.get());
-		changeItemTask.runTaskLater(itemChangeDelay);
+		changeItemTask.runTaskLater(e.getPlayer(), itemChangeDelay);
 	}
 
 }

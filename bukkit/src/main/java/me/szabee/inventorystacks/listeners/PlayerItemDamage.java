@@ -31,6 +31,6 @@ public class PlayerItemDamage implements Listener {
 		clone.setAmount(originalAmount - 1);
 
 		DamageItemTask damageItemTask = new DamageItemTask(e.getPlayer(), e.getItem(), clone);
-		damageItemTask.runTaskLater(itemChangeDelay);
+		damageItemTask.runTaskLater(e.getPlayer(), itemChangeDelay);
 	}
 }

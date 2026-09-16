@@ -47,6 +47,6 @@ public class BlockPlace implements Listener {
 
 		ChangeItemInHandWithItemTask changeItemTask = new ChangeItemInHandWithItemTask(e.getPlayer(), clone,
 				new ItemStack(XMaterialUtil.BUCKET.get()), XMaterialUtil.BUCKET.get());
-		changeItemTask.runTaskLater(itemChangeDelay);
+		changeItemTask.runTaskLater(e.getPlayer(), itemChangeDelay);
 	}
 }

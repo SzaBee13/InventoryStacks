@@ -50,11 +50,11 @@ public class PlayerBucketEmpty implements Listener {
 		if (!VersionUtil.v1_21.isServerVersionHigher()) {
 			ChangeItemInHandWithItemTask changeItemTask = new ChangeItemInHandWithItemTask(e.getPlayer(), clone,
 					new ItemStack(XMaterialUtil.BUCKET.get()), XMaterialUtil.BUCKET.get());
-			changeItemTask.runTaskLater(itemChangeDelay);
+			changeItemTask.runTaskLater(e.getPlayer(), itemChangeDelay);
 		} else {
 			ChangeItemInHandTask changeItemTask = new ChangeItemInHandTask(e.getPlayer(), clone,
 					XMaterialUtil.BUCKET.get());
-			changeItemTask.runTaskLater(itemChangeDelay);
+			changeItemTask.runTaskLater(e.getPlayer(), itemChangeDelay);
 		}
 	}
 
@@ -90,7 +90,7 @@ public class PlayerBucketEmpty implements Listener {
 
 		ChangeItemInHandWithItemTask task = new ChangeItemInHandWithItemTask(player, remaining,
 				new ItemStack(Material.BUCKET), XMaterialUtil.BUCKET.get());
-		task.runTaskLater(itemChangeDelay);
+		task.runTaskLater(player, itemChangeDelay);
 	}
 
 }

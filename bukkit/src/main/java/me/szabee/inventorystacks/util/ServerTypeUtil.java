@@ -6,6 +6,21 @@ public enum ServerTypeUtil {
 	PAPER("MAX_STACK_SIZE", "components", "map"),
 	FOLIA("MAX_STACK_SIZE", "components", "map");
 
+	private static final boolean IS_FOLIA = computeIsFolia();
+
+	private static boolean computeIsFolia() {
+		try {
+			Class.forName("io.papermc.paper.threadedregions.RegionizedServer");
+			return true;
+		} catch (ClassNotFoundException e) {
+			return false;
+		}
+	}
+
+	public static boolean isFolia() {
+		return IS_FOLIA;
+	}
+
 	private final String dataComponentKeyField;
 	private final String itemComponentsField;
 	private final String internalMapField;

@@ -100,7 +100,7 @@ public class InventoryClick implements Listener {
 			return;
 
 		InventoryUpdateTask updateInventoryTask = new InventoryUpdateTask((Player) e.getWhoClicked());
-		updateInventoryTask.runTaskLater(2L);
+		updateInventoryTask.runTaskLater((Player) e.getWhoClicked(), 2L);
 	}
 
 	@EventHandler(ignoreCancelled = true)

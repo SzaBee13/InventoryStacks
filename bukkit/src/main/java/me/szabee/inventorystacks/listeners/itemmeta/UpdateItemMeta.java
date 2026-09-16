@@ -111,7 +111,7 @@ public class UpdateItemMeta implements Listener {
 					scheduled.remove(key);
 				}
 			}
-		}.runTaskLater(1L);
+		}.runTaskLater(loc, 1L);
 	}
 
 	private boolean shouldHandle(Player player, Location loc, ItemStack stack) {

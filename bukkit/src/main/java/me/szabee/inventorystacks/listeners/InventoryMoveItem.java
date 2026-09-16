@@ -47,7 +47,7 @@ public class InventoryMoveItem implements Listener {
 		one.setAmount(1);
 
 		FixBrewingStandTask task = new FixBrewingStandTask(destination, e.getSource(), one);
-		task.runTaskLater(1L);
+		task.runTaskLater(destination.getLocation(), 1L);
 	}
 
 	private boolean hasEmptyBottleSlot(Inventory inv) {
